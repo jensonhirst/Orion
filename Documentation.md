@@ -6,7 +6,20 @@ This documentation is for the stable release of Orion Library.
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/jensonhirst/Orion/main/source')))()
 ```
 
-
+## Creating and Loading Custom Theme
+```lua
+local CustomTheme = {
+    Main = Color3.fromRGB(131,58,180),
+    Second = Color3.fromRGB(0,0,0),
+    Stroke = Color3.fromRGB(0,249,31),
+    Divider = Color3.fromRGB(0,249,31),
+    Text = Color3.fromRGB(255,255,255),
+    TextDark = Color3.fromRGB(109,130,124)
+}
+    
+OrionLib.Themes["Custom"] = CustomTheme
+OrionLib.SelectedTheme = "Custom"
+```
 
 ## Creating a Window
 ```lua
