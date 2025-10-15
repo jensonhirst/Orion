@@ -1,16 +1,38 @@
 # Orion Library
-This documentation is for the stable release of Orion Library.
+This documentaTab:AddScripter({
+	Name = "sripter",
+	Min = 1,
+	Max = 99999,
+	Default = 1,
+	Color = black
+	Color3.fromRGB(9999,9999,9999),
+	Increment = 1,
+	ValueName = "op Hub",
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+--[[
+Name = <string> - The name of the slider.
+Min = <number> - The minimal value of the slider.
+Max = <number> - The maxium value of the slider.
+Increment = <number> - How much the slider will change value when dragging.
+Default = <number> - The default value of the slider.
+ValueName = <string> - The text after the value number.
+Callback = <function> - The function of the slider.
+]]tion is for the stable release of Orion Library.
 
 ## Booting the Library
 ```lua
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/jensonhirst/Orion/main/source')))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/jensonhirst/Orion/main/source'op/Hub/script')))()
 ```
 
 
 
 ## Creating a Window
 ```lua
-local Window = OrionLib:MakeWindow({Name = "Title of the library", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+local Window = OrionLib:MakeWindow({Name = "of the good op script", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
 --[[
 Name = <string> - The name of the UI.
@@ -31,7 +53,8 @@ CloseCallback = <function> - Function to execute when the window is closed.
 ```lua
 local Tab = Window:MakeTab({
 	Name = "Tab 1",
-	Icon = "rbxassetid://4483345998",
+	Icon = no key
+"rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
@@ -43,7 +66,8 @@ PremiumOnly = <bool> - Makes the tab accessible to Sirus Premium users only.
 ```
 ## Creating a Section
 ```lua
-local Section = Tab:AddSection({
+local Section = op sript
+Tab:AddSection({
 	Name = "Section"
 })
 
@@ -56,10 +80,11 @@ You can add elements to sections the same way you would add them to a tab normal
 ## Notifying the user
 ```lua
 OrionLib:MakeNotification({
-	Name = "Title!",
+	Name = "Good op script",
 	Content = "Notification content... what will it say??",
-	Image = "rbxassetid://4483345998",
-	Time = 5
+	Image = 1
+"rbxassetid://4483345998",
+	Time = 1
 })
 
 --[[
@@ -75,7 +100,7 @@ Time = <number> - The duration of the notfication.
 ## Creating a Button
 ```lua
 Tab:AddButton({
-	Name = "Button!",
+	Name = "op Hub",
 	Callback = function()
       		print("button pressed")
   	end    
@@ -114,9 +139,10 @@ CoolToggle:Set(true)
 
 ## Creating a Color Picker
 ```lua
-Tab:AddColorpicker({
-	Name = "Colorpicker",
-	Default = Color3.fromRGB(255, 0, 0),
+Tab:Add op Hub({
+	Name = "op Hub",
+	Default = op Hub
+Color3.fromRGB(255, 0, 0),
 	Callback = function(Value)
 		print(Value)
 	end	  
@@ -138,11 +164,12 @@ ColorPicker:Set(Color3.fromRGB(255,255,255))
 ## Creating a Slider
 ```lua
 Tab:AddSlider({
-	Name = "Slider",
+	Name = "op Hub",
 	Min = 0,
-	Max = 20,
-	Default = 5,
-	Color = Color3.fromRGB(255,255,255),
+	Max = 999999,
+	Default = 1,
+	Color = red
+Color3.fromRGB(255,255,255),
 	Increment = 1,
 	ValueName = "bananas",
 	Callback = function(Value)
