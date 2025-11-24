@@ -1,299 +1,148 @@
-# Orion Library
-This documentation is for the stable release of Orion Library.
+local Admins = {"deltax_"}
+-- Admin System Legal (untuk game buatanmu sendiri)
 
-## Booting the Library
-```lua
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/jensonhirst/Orion/main/source')))()
-```
+local Admins = {"YourUsernameHere"} -- ganti username kamu
+local Players = game:GetService("Players")
+local ServerStorage = game:GetService("ServerStorage")
 
+-- Pastikan kamu punya pedang bernama "Sword" di ServerStorage
 
+Players.PlayerAdded:Connect(function(player)
+	if table.find(Admins, player.Name) then
+		
+		player.Chatted:Connect(function(msg)
+			msg = string.lower(msg)
 
-## Creating a Window
-```lua
-local Window = OrionLib:MakeWindow({Name = "Title of the library", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+			-- GIVE SWORD
+			if msg == "!sword" then
+				if ServerStorage:FindFirstChild("Sword") then
+					local swordClone = ServerStorage.Sword:Clone()
+					swordClone.Parent = player.Backpack
+				end
+			end
 
---[[
-Name = <string> - The name of the UI.
-HidePremium = <bool> - Whether or not the user details shows Premium status or not.
-SaveConfig = <bool> - Toggles the config saving in the UI.
-ConfigFolder = <string> - The name of the folder where the configs are saved.
-IntroEnabled = <bool> - Whether or not to show the intro animation.
-IntroText = <string> - Text to show in the intro animation.
-IntroIcon = <string> - URL to the image you want to use in the intro animation.
-Icon = <string> - URL to the image you want displayed on the window.
-CloseCallback = <function> - Function to execute when the window is closed.
-]]
-```
+			-- HEAL
+			if msg == "!heal" then
+				local hum = player.Character and player.Character:FindFirstChild("Humanoid")
+				if hum then hum.Health = hum.MaxHealth end
+			end
 
+			-- FLY
+			if msg == "!fly" then
+				local char = player.Character
+				if char then
+					local root = char:WaitForChild("HumanoidRootPart")
+					local bv = Instance.new("BodyVelocity")
+					bv.Parent = root
+					bv.MaxForce = Vector3.new(1e6, 1e6, 1e6)
+					bv.Velocity = Vector3.new(0, 60, 0)
+					game:GetService("Debris"):AddItem(bv, 2)
+				end
+			end
 
+			-- JAIL
+			if msg == "!jail" then
+				local char = player.Character
+				if char then
+					local jail = Instance.new("Part")
+					jail.Size = Vector3.new(21, 12, 15)
+					jail.Transparency = 0.7
+					jail.Anchored = true
+					jail.Color = Color3.fromRGB(100, 100, 100)
+					jail.Position = char.HumanoidRootPart.Position
+					jail.Parent = workspace
 
-## Creating a Tab
-```lua
-local Tab = Window:MakeTab({
-	Name = "Tab 1",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
+					local mesh = Instance.new("SpecialMesh", jail)
+					mesh.MeshType = Enum.MeshType.Sphere
+				end
+			end
 
---[[
-Name = <string> - The name of the tab.
-Icon = <string> - The icon of the tab.
-PremiumOnly = <bool> - Makes the tab accessible to Sirus Premium users only.
-]]
-```
-## Creating a Section
-```lua
-local Section = Tab:AddSection({
-	Name = "Section"
-})
+			-- FIRE
+			if msg == "!fire" then
+				local char = player.Character
+				if char then
+					local fire = Instance.new("Fire")
+					fire.Size = 10
+					fire.Heat = 15
+					fire.Parent = char:WaitForChild("HumanoidRootPart")
+				end
+			end
 
---[[
-Name = <string> - The name of the section.
-]]
-```
-You can add elements to sections the same way you would add them to a tab normally.
+			-- FREEZE
+			if msg == "!freeze" then
+				local char = player.Character
+				if char then
+					for _, v in ipairs(char:GetDescendants()) do
+						if v:IsA("BasePart") then
+							v.Anchored = true
+						end
+					end
+				end
+			end
 
-## Notifying the user
-```lua
-OrionLib:MakeNotification({
-	Name = "Title!",
-	Content = "Notification content... what will it say??",
-	Image = "rbxassetid://4483345998",
-	Time = 5
-})
+			-- ICE (membeku + efek visual)
+			if msg == "!ice" then
+				local char = player.Character
+				if char then
+					for _, v in ipairs(char:GetDescendants()) do
+						if v:IsA("BasePart") then
+							local ice = Instance.new("ParticleEmitter")
+							ice.Texture = "rbxassetid://284205403" -- efek es
+							ice.Rate = 20
+							ice.Lifetime = NumberRange.new(1)
+							ice.Speed = NumberRange.new(0)
+							ice.Parent = v
+							game:GetService("Debris"):AddItem(ice, 3)
+						end
+					end
+				end
+			end
 
---[[
-Title = <string> - The title of the notification.
-Content = <string> - The content of the notification.
-Image = <string> - The icon of the notification.
-Time = <number> - The duration of the notfication.
-]]
-```
+			-- INVISIBLE
+			if msg == "!invisible" then
+				local char = player.Character
+				if char then
+					for _, v in ipairs(char:GetDescendants()) do
+						if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
+							v.Transparency = 1
+						end
+					end
+				end
+			end
 
+		end)
+	end
+end)
+-- ESP / Highlight Legal Untuk Game Kamu Sendiri
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
 
+local function addESP(character)
+	if character:FindFirstChild("HumanoidRootPart") then
+		local highlight = Instance.new("Highlight")
+		highlight.FillColor = Color3.fromRGB(0, 255, 0)
+		highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+		highlight.FillTransparency = 0.5
+		highlight.Adornee = character
+		highlight.Parent = character
+	end
+end
 
-## Creating a Button
-```lua
-Tab:AddButton({
-	Name = "Button!",
-	Callback = function()
-      		print("button pressed")
-  	end    
-})
+local function setupPlayer(player)
+	player.CharacterAdded:Connect(function(char)
+		task.wait(1)
+		addESP(char)
+	end)
+end
 
---[[
-Name = <string> - The name of the button.
-Callback = <function> - The function of the button.
-]]
-```
+for _, p in ipairs(Players:GetPlayers()) do
+	if p ~= LocalPlayer then
+		setupPlayer(p)
+	end
+end
 
-
-## Creating a Checkbox toggle
-```lua
-Tab:AddToggle({
-	Name = "This is a toggle!",
-	Default = false,
-	Callback = function(Value)
-		print(Value)
-	end    
-})
-
---[[
-Name = <string> - The name of the toggle.
-Default = <bool> - The default value of the toggle.
-Callback = <function> - The function of the toggle.
-]]
-```
-
-### Changing the value of an existing Toggle
-```lua
-CoolToggle:Set(true)
-```
-
-
-
-## Creating a Color Picker
-```lua
-Tab:AddColorpicker({
-	Name = "Colorpicker",
-	Default = Color3.fromRGB(255, 0, 0),
-	Callback = function(Value)
-		print(Value)
-	end	  
-})
-
---[[
-Name = <string> - The name of the colorpicker.
-Default = <color3> - The default value of the colorpicker.
-Callback = <function> - The function of the colorpicker.
-]]
-```
-
-### Setting the color picker's value
-```lua
-ColorPicker:Set(Color3.fromRGB(255,255,255))
-```
-
-
-## Creating a Slider
-```lua
-Tab:AddSlider({
-	Name = "Slider",
-	Min = 0,
-	Max = 20,
-	Default = 5,
-	Color = Color3.fromRGB(255,255,255),
-	Increment = 1,
-	ValueName = "bananas",
-	Callback = function(Value)
-		print(Value)
-	end    
-})
-
---[[
-Name = <string> - The name of the slider.
-Min = <number> - The minimal value of the slider.
-Max = <number> - The maxium value of the slider.
-Increment = <number> - How much the slider will change value when dragging.
-Default = <number> - The default value of the slider.
-ValueName = <string> - The text after the value number.
-Callback = <function> - The function of the slider.
-]]
-```
-
-### Change Slider Value
-```lua
-Slider:Set(2)
-```
-Make sure you make your slider a variable (local CoolSlider = Tab:AddSlider...) for this to work.
-
-
-## Creating a Label
-```lua
-Tab:AddLabel("Label")
-```
-
-### Changing the value of an existing label
-```lua
-CoolLabel:Set("Label New!")
-```
-
-
-## Creating a Paragraph
-```lua
-Tab:AddParagraph("Paragraph","Paragraph Content")
-```
-
-### Changing an existing paragraph
-```lua
-CoolParagraph:Set("Paragraph New!", "New Paragraph Content!")
-```
-
-
-## Creating an Adaptive Input
-```lua
-Tab:AddTextbox({
-	Name = "Textbox",
-	Default = "default box input",
-	TextDisappear = true,
-	Callback = function(Value)
-		print(Value)
-	end	  
-})
-
---[[
-Name = <string> - The name of the textbox.
-Default = <string> - The default value of the textbox.
-TextDisappear = <bool> - Makes the text disappear in the textbox after losing focus.
-Callback = <function> - The function of the textbox.
-]]
-```
-
-
-## Creating a Keybind
-```lua
-Tab:AddBind({
-	Name = "Bind",
-	Default = Enum.KeyCode.E,
-	Hold = false,
-	Callback = function()
-		print("press")
-	end    
-})
-
---[[
-Name = <string> - The name of the bind.
-Default = <keycode> - The default value of the bind.
-Hold = <bool> - Makes the bind work like: Holding the key > The bind returns true, Not holding the key > Bind returns false.
-Callback = <function> - The function of the bind.
-]]
-```
-
-### Chaning the value of a bind
-```lua
-Bind:Set(Enum.KeyCode.E)
-```
-
-
-## Creating a Dropdown menu
-```lua
-Tab:AddDropdown({
-	Name = "Dropdown",
-	Default = "1",
-	Options = {"1", "2"},
-	Callback = function(Value)
-		print(Value)
-	end    
-})
-
---[[
-Name = <string> - The name of the dropdown.
-Default = <string> - The default value of the dropdown.
-Options = <table> - The options in the dropdown.
-Callback = <function> - The function of the dropdown.
-]]
-```
-
-### Adding a set of new Dropdown buttons to an existing menu
-```lua
-Dropdown:Refresh(List<table>,true)
-```
-
-The above boolean value "true" is whether or not the current buttons will be deleted.
-### Selecting a dropdown option
-```lua
-Dropdown:Set("dropdown option")
-```
-
-# Finishing your script (REQUIRED)
-The below function needs to be added at the end of your code.
-```lua
-OrionLib:Init()
-```
-
-### How flags work.
-The flags feature in the ui may be confusing for some people. It serves the purpose of being the ID of an element in the config file, and makes accessing the value of an element anywhere in the code possible.
-Below in an example of using flags.
-```lua
-Tab1:AddToggle({
-    Name = "Toggle",
-    Default = true,
-    Save = true,
-    Flag = "toggle"
-})
-
-print(OrionLib.Flags["toggle"].Value) -- prints the value of the toggle.
-```
-Flags only work with the toggle, slider, dropdown, bind, and colorpicker.
-
-### Making your interface work with configs.
-In order to make your interface use the configs function you first need to add the `SaveConfig` and `ConfigFolder` arguments to your window function. The explanation of these arguments in above.
-Then you need to add the `Flag` and `Save` values to every toggle, slider, dropdown, bind, and colorpicker you want to include in the config file.
-The `Flag = <string>` argument is the ID of an element in the config file.
-The `Save = <bool>` argument includes the element in the config file.
-Config files are made for every game the library is launched in.
-
-## Destroying the Interface
-```lua
-OrionLib:Destroy()
-```
+Players.PlayerAdded:Connect(function(p)
+	if p ~= LocalPlayer then
+		setupPlayer(p)
+	end
+end)
