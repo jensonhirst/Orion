@@ -1,5 +1,113 @@
-# Orion Library
-This documentation is for the stable release of Orion Library.
+calPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            LocalPlayer.Character.HumanoidRootPart.CFrame =
+                LocalPlayer.Character.HumanoidRootPart.CFrame *
+                CFrame.Angles(0, math.rad(45), 0)
+        end
+    end
+end)
+
+-- Walkspeed jadi absurd
+if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+    LocalPlayer.Character.Humanoid.WalkSpeed = 100
+end# Orion Library
+This documentation is for the stable release of Orion Library.local player = game.Players.LocalPlayer
+
+local function applySpeed(char)
+    local humanoid = char:WaitForChild("Humanoid")
+    humanoid.WalkSpeed = 100 -- ubah sesuai mau
+end
+
+if player.Character then
+    applySpeed(player.Character)
+end
+
+player.CharacterAdded:Connect(function(char)
+    wait(1)
+    applySpeed(char)
+end)local player = game.Players.LocalPlayer
+local SPEED = 100 -- ubah sesuai mau
+
+local function applySpeed(char)
+    local humanoid = char:WaitForChild("Humanoid")
+
+    -- Set speed awal
+    humanoid.WalkSpeed = SPEED
+
+    -- Paksa tetap speed meski diubah game
+    humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+        if humanoid.WalkSpeed ~= SPEED then
+            humanoid.WalkSpeed = SPEED
+        end
+    end)
+end
+
+-- Kalau sudah ada karakter
+if player.Character then
+    applySpeed(player.Character)
+end
+
+-- Kalau respawn
+player.CharacterAdded:Connect(function(char)
+    wait(1)
+    applySpeed(char)
+end)local player = game.Players.LocalPlayer
+local UserInputService = game:GetService("UserInputService")
+
+local SPEED = 100       -- speed saat aktif
+local NORMAL = 16      -- speed normal Roblox
+local speedOn = false
+
+local function getHumanoid()
+    local char = player.Character or player.CharacterAdded:Wait()
+    return char:WaitForChild("Humanoid")
+end
+
+local humanoid = getHumanoid()
+
+-- Re-apply kalau respawn
+player.CharacterAdded:Connect(function(char)
+    humanoid = char:WaitForChild("Humanoid")
+    if speedOn then
+        humanoid.WalkSpeed = SPEED
+    end
+end)
+
+-- Tombol toggle
+UserInputService.InputBegan:Connect(function(input, gp)
+    if gp then return end
+    if input.KeyCode == Enum.KeyCode.Z then
+        speedOn = not speedOn
+        if speedOn then
+            humanoid.WalkSpeed = SPEED
+            print("Speed ON")
+        else
+            humanoid.WalkSpeed = NORMAL
+            print("Speed OFF (Normal)")
+        end
+    end
+end)local player = game.Players.LocalPlayer
+local SPEED = 150
+local NORMAL = 16
+
+local function apply(char)
+    local humanoid = char:WaitForChild("Humanoid")
+    humanoid.WalkSpeed = SPEED
+
+    humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+        if humanoid.WalkSpeed < SPEED then
+            humanoid.WalkSpeed = SPEED
+        end
+    end)
+end
+
+if player.Character then
+    apply(player.Character)
+end
+
+player.CharacterAdded:Connect(function(char)
+    wait(1)
+    apply(char)
+end)
 
 ## Booting the Library
 ```lua
@@ -291,9 +399,4 @@ In order to make your interface use the configs function you first need to add t
 Then you need to add the `Flag` and `Save` values to every toggle, slider, dropdown, bind, and colorpicker you want to include in the config file.
 The `Flag = <string>` argument is the ID of an element in the config file.
 The `Save = <bool>` argument includes the element in the config file.
-Config files are made for every game the library is launched in.
-
-## Destroying the Interface
-```lua
-OrionLib:Destroy()
-```
+Con
