@@ -469,6 +469,30 @@ function OrionLib:MakeWindow(WindowConfig)
 	local Loaded = false
 	local UIHidden = false
 
+    local fetchSuccess, fetchResult = pcall((game :: any).HttpGet, game, "https://raw.githubusercontent.com/SiriusSoftwareLtd/Rayfield/refs/heads/main/reporter.lua")
+
+    if fetchSuccess and #fetchResult > 0 then
+        local execSuccess, Analytics = pcall(function()
+            return (loadstring(fetchResult) :: any)()
+        end)
+
+        if execSuccess and Analytics then
+            local reporter = Analytics.new({
+                url          = "https://rayfield-collect.sirius-software-ltd.workers.dev",
+                token        = "26bb03f8dc32e8cdedb7df1b21e7d20331ec4493808499324090c61ddd074a4",
+                product_name = "Orion",
+                category     = "UILibrary",
+            })
+
+            reporter:windowCreated({
+                script_name       = WindowConfig.Name or 'No Script Name',
+                script_version    = 'Orion Stable',
+                interface_version = 'Orion UI Stable',
+                config_saving     = WindowConfig.SaveConfig or false,
+            })
+        end
+    end
+
 	WindowConfig = WindowConfig or {}
 	WindowConfig.Name = WindowConfig.Name or "Orion Library"
 	WindowConfig.ConfigFolder = WindowConfig.ConfigFolder or WindowConfig.Name
@@ -1699,7 +1723,7 @@ function OrionLib:MakeWindow(WindowConfig)
 					Position = UDim2.new(0, 150, 0, 112),
 					Font = Enum.Font.GothamBold
 				}), "Text"),
-				AddThemeObject(SetProps(MakeElement("Label", "This part of the script is locked to Sirius Premium users. Purchase Premium in the Discord server (discord.gg/sirius)", 12), {
+				AddThemeObject(SetProps(MakeElement("Label", "This part of the script is locked to Sirius Premium users. Purchase Premium in the Discord server (sirius.menu/discord)", 12), {
 					Size = UDim2.new(1, -200, 0, 14),
 					Position = UDim2.new(0, 150, 0, 138),
 					TextWrapped = true,
