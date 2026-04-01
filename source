@@ -494,7 +494,7 @@ function OrionLib:MakeWindow(WindowConfig)
 			if execSuccess and Analytics then
 				local reporter = Analytics.new({
 					url          = "https://rayfield-collect.sirius-software-ltd.workers.dev",
-					token        = "626bb03f8dc32e8cdedb7df1b21e7d20331ec4493808499324090c61ddd074a4",
+					token        = "e1712bdd9e7aafe203236be61f472609e5ec8efad62aa86244b96aaca0c22267",
 					product_name = "Orion",
 					category     = "UILibrary",
 				})
