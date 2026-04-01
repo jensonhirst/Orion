@@ -469,30 +469,6 @@ function OrionLib:MakeWindow(WindowConfig)
 	local Loaded = false
 	local UIHidden = false
 
-    local fetchSuccess, fetchResult = pcall((game :: any).HttpGet, game, "https://raw.githubusercontent.com/SiriusSoftwareLtd/Rayfield/refs/heads/main/reporter.lua")
-
-    if fetchSuccess and #fetchResult > 0 then
-        local execSuccess, Analytics = pcall(function()
-            return (loadstring(fetchResult) :: any)()
-        end)
-
-        if execSuccess and Analytics then
-            local reporter = Analytics.new({
-                url          = "https://rayfield-collect.sirius-software-ltd.workers.dev",
-                token        = "26bb03f8dc32e8cdedb7df1b21e7d20331ec4493808499324090c61ddd074a4",
-                product_name = "Orion",
-                category     = "UILibrary",
-            })
-
-            reporter:windowCreated({
-                script_name       = WindowConfig.Name or 'No Script Name',
-                script_version    = 'Orion Stable',
-                interface_version = 'Orion UI Stable',
-                config_saving     = WindowConfig.SaveConfig or false,
-            })
-        end
-    end
-
 	WindowConfig = WindowConfig or {}
 	WindowConfig.Name = WindowConfig.Name or "Orion Library"
 	WindowConfig.ConfigFolder = WindowConfig.ConfigFolder or WindowConfig.Name
@@ -508,6 +484,31 @@ function OrionLib:MakeWindow(WindowConfig)
 	WindowConfig.IntroIcon = WindowConfig.IntroIcon or "rbxassetid://8834748103"
 	OrionLib.Folder = WindowConfig.ConfigFolder
 	OrionLib.SaveCfg = WindowConfig.SaveConfig
+
+	pcall(function()
+		local fetchSuccess, fetchResult = pcall((game :: any).HttpGet, game, "https://raw.githubusercontent.com/SiriusSoftwareLtd/Rayfield/refs/heads/main/reporter.lua")
+		if fetchSuccess and #fetchResult > 0 then
+			local execSuccess, Analytics = pcall(function()
+				return (loadstring(fetchResult) :: any)()
+			end)
+			if execSuccess and Analytics then
+				local reporter = Analytics.new({
+					url          = "https://rayfield-collect.sirius-software-ltd.workers.dev",
+					token        = "26bb03f8dc32e8cdedb7df1b21e7d20331ec4493808499324090c61ddd074a4",
+					product_name = "Orion",
+					category     = "UILibrary",
+				})
+				pcall(function()
+					reporter:windowCreated({
+						script_name       = WindowConfig.Name,
+						script_version    = 'Orion Stable',
+						interface_version = 'Orion UI Stable',
+						config_saving     = WindowConfig.SaveConfig,
+					})
+				end)
+			end
+		end
+	end)
 
 	if WindowConfig.SaveConfig then
 		if not isfolder(WindowConfig.ConfigFolder) then
