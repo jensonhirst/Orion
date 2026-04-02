@@ -1,4 +1,48 @@
-# Orion Library
+local Admins = {
+    "NamaPenggunaKamu", -- ganti dengan username Roblox kamu
+    "TemanKamu" -- tambahkan nama lain jika perlu
+}
+
+local Prefix = "!" -- prefix untuk command, misalnya !fly, !kick, dll
+
+game.Players.PlayerAdded:Connect(function(player)
+    player.Chatted:Connect(function(msg)
+        for _, adminName in pairs(Admins) do
+            if player.Name == adminName then
+                local args = string.split(msg, " ")
+                local command = args[1]
+                
+                if command == Prefix.."kick" then
+                    local targetName = args[2]
+                    local target = game.Players:FindFirstChild(targetName)
+                    if target then
+                        target:Kick("Kamu telah dikick oleh admin.")
+                    end
+                
+                elseif command == Prefix.."fly" then
+                    local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+                    if humanoid then
+                        local bodyVelocity = Instance.new("BodyVelocity")
+                        bodyVelocity.Velocity = Vector3.new(0, 50, 0)
+                        bodyVelocity.MaxForce = Vector3.new(4000, 4000, 4000)
+                        bodyVelocity.Parent = player.Character:FindFirstChild("HumanoidRootPart")
+                        wait(5)
+                        bodyVelocity:Destroy()
+                    end
+                
+                elseif command == Prefix.."announce" then
+                    local message = table.concat(args, " ", 2)
+                    game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {
+                        Text = "[ANNOUNCEMENT] " .. message,
+                        Color = Color3.fromRGB(255, 255, 0),
+                        Font = Enum.Font.SourceSansBold,
+                        TextSize = 24
+                    })
+                end
+            end
+        end
+    end)
+end)# Orion Library
 This documentation is for the stable release of Orion Library.
 
 ## Booting the Library
