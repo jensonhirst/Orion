@@ -1,299 +1,141 @@
-# Orion Library
-This documentation is for the stable release of Orion Library.
+local player = game.Players.LocalPlayer
 
-## Booting the Library
-```lua
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/jensonhirst/Orion/main/source')))()
-```
+-- Hapus GUI lama jika ada
+pcall(function()
+	player.PlayerGui:FindFirstChild("PAPSKY_REPORT_PLAYER"):Destroy()
+end)
 
+-- GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "PAPSKY_REPORT_PLAYER"
+ScreenGui.Parent = player:WaitForChild("PlayerGui")
 
+-- Main Frame
+local Frame = Instance.new("Frame")
+Frame.Parent = ScreenGui
+Frame.Size = UDim2.new(0, 450, 0, 400)
+Frame.Position = UDim2.new(0.5, -225, 0.5, -200)
+Frame.BackgroundColor3 = Color3.fromRGB(80,0,0)
+Frame.BorderSizePixel = 0
+Frame.Active = true
+Frame.Draggable = true
 
-## Creating a Window
-```lua
-local Window = OrionLib:MakeWindow({Name = "Title of the library", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+-- Toggle Button
+local ToggleBtn = Instance.new("TextButton")
+ToggleBtn.Parent = ScreenGui
+ToggleBtn.Size = UDim2.new(0,40,0,40)
+ToggleBtn.Position = UDim2.new(0,10,0,10)
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(255,0,0)
+ToggleBtn.Text = ""
 
---[[
-Name = <string> - The name of the UI.
-HidePremium = <bool> - Whether or not the user details shows Premium status or not.
-SaveConfig = <bool> - Toggles the config saving in the UI.
-ConfigFolder = <string> - The name of the folder where the configs are saved.
-IntroEnabled = <bool> - Whether or not to show the intro animation.
-IntroText = <string> - Text to show in the intro animation.
-IntroIcon = <string> - URL to the image you want to use in the intro animation.
-Icon = <string> - URL to the image you want displayed on the window.
-CloseCallback = <function> - Function to execute when the window is closed.
-]]
-```
+local Visible = true
+ToggleBtn.MouseButton1Click:Connect(function()
+	Visible = not Visible
+	Frame.Visible = Visible
+end)
 
+-- Title
+local Title = Instance.new("TextLabel")
+Title.Parent = Frame
+Title.Size = UDim2.new(1,0,0,40)
+Title.BackgroundColor3 = Color3.fromRGB(40,0,0)
+Title.Text = "PAPSKY REPORT PLAYER"
+Title.TextColor3 = Color3.fromRGB(255,60,60)
+Title.Font = Enum.Font.SourceSansBold
+Title.TextSize = 22
+Title.BorderSizePixel = 0
+Title.TextXAlignment = Enum.TextXAlignment.Center
+Title.TextYAlignment = Enum.TextYAlignment.Center
 
+-- Scroll
+local Scroll = Instance.new("ScrollingFrame")
+Scroll.Parent = Frame
+Scroll.Size = UDim2.new(1,-10,1,-50)
+Scroll.Position = UDim2.new(0,5,0,45)
+Scroll.CanvasSize = UDim2.new(0,0,0,0)
+Scroll.ScrollBarThickness = 8
+Scroll.BackgroundTransparency = 1
+Scroll.BorderSizePixel = 0
 
-## Creating a Tab
-```lua
-local Tab = Window:MakeTab({
-	Name = "Tab 1",
-	Icon = "rbxassetid://4483345998",
-	PremiumOnly = false
-})
+local UIList = Instance.new("UIListLayout")
+UIList.Parent = Scroll
+UIList.Padding = UDim.new(0,6)
+UIList.SortOrder = Enum.SortOrder.LayoutOrder
 
---[[
-Name = <string> - The name of the tab.
-Icon = <string> - The icon of the tab.
-PremiumOnly = <bool> - Makes the tab accessible to Sirus Premium users only.
-]]
-```
-## Creating a Section
-```lua
-local Section = Tab:AddSection({
-	Name = "Section"
-})
+-- Category
+local function createCategory(title)
+	local Label = Instance.new("TextLabel")
+	Label.Parent = Scroll
+	Label.Size = UDim2.new(1,0,0,30)
+	Label.BackgroundTransparency = 1
+	Label.TextColor3 = Color3.fromRGB(255,180,180)
+	Label.Font = Enum.Font.SourceSansBold
+	Label.TextSize = 18
+	Label.Text = title
+	Label.TextXAlignment = Enum.TextXAlignment.Left
+end
 
---[[
-Name = <string> - The name of the section.
-]]
-```
-You can add elements to sections the same way you would add them to a tab normally.
+-- Report (Bisa Dicopy)
+local function createReport(text)
+	local Box = Instance.new("TextBox")
+	Box.Parent = Scroll
+	Box.Size = UDim2.new(1,0,0,55)
+	Box.TextWrapped = true
+	Box.Text = text
+	Box.BackgroundColor3 = Color3.fromRGB(120,0,0)
+	Box.TextColor3 = Color3.fromRGB(255,220,220)
+	Box.Font = Enum.Font.SourceSans
+	Box.TextSize = 14
+	
+	Box.ClearTextOnFocus = false
+	Box.TextEditable = false
+	Box.MultiLine = true
+end
 
-## Notifying the user
-```lua
-OrionLib:MakeNotification({
-	Name = "Title!",
-	Content = "Notification content... what will it say??",
-	Image = "rbxassetid://4483345998",
-	Time = 5
-})
+-- ===============================
+-- CATEGORY: BERKENCAN / MINOR
+-- ===============================
+createCategory("Report Minor Safety")
+createReport("I am reporting a Roblox player for engaging in inappropriate behavior involving a minor.")
+createReport("This user is suspected of unsafe or inappropriate interactions with underage players.")
+createReport("I witnessed behavior suggesting grooming or unsafe communication with a minor.")
+createReport("This player’s behavior is not suitable for a child-friendly platform.")
+createReport("Please investigate this account for serious inappropriate conduct involving minors.")
 
---[[
-Title = <string> - The title of the notification.
-Content = <string> - The content of the notification.
-Image = <string> - The icon of the notification.
-Time = <number> - The duration of the notfication.
-]]
-```
+-- ===============================
+-- CATEGORY: CHEAT / EXPLOIT
+-- ===============================
+createCategory("Report Cheat / Exploit")
+createReport("I am reporting a player for using cheats or exploit scripts to gain unfair advantages.")
+createReport("This user is exploiting the game and disrupting gameplay for others.")
+createReport("The player is using unauthorized third-party tools or scripts.")
+createReport("I observed exploit abuse that violates Roblox fair play rules.")
+createReport("This report concerns cheating behavior that negatively affects the game.")
 
+-- ===============================
+-- CATEGORY: AVATAR TIDAK PANTAS
+-- ===============================
+createCategory("Report Inappropriate Avatar")
+createReport("I am reporting a player for using inappropriate or suggestive avatar clothing.")
+createReport("This avatar violates Roblox Community Standards for appropriate content.")
+createReport("The player’s outfit is not suitable for a child-friendly environment.")
+createReport("This avatar appears designed to attract attention inappropriately.")
+createReport("Please review this avatar for inappropriate visual content.")
 
+-- ===============================
+-- CATEGORY: BAN REQUEST
+-- ===============================
+createCategory("Ban Player Request")
+createReport("I strongly request a review and potential ban for this player due to repeated violations.")
+createReport("This player has repeatedly violated community rules and should be reviewed for suspension.")
+createReport("Please consider account suspension due to continuous harmful behavior.")
+createReport("This user is negatively affecting the community and should face appropriate moderation action.")
+createReport("I request immediate investigation and appropriate disciplinary action.")
 
-## Creating a Button
-```lua
-Tab:AddButton({
-	Name = "Button!",
-	Callback = function()
-      		print("button pressed")
-  	end    
-})
+-- Auto update scroll size
+local function updateCanvas()
+	Scroll.CanvasSize = UDim2.new(0,0,0,UIList.AbsoluteContentSize.Y + 10)
+end
 
---[[
-Name = <string> - The name of the button.
-Callback = <function> - The function of the button.
-]]
-```
-
-
-## Creating a Checkbox toggle
-```lua
-Tab:AddToggle({
-	Name = "This is a toggle!",
-	Default = false,
-	Callback = function(Value)
-		print(Value)
-	end    
-})
-
---[[
-Name = <string> - The name of the toggle.
-Default = <bool> - The default value of the toggle.
-Callback = <function> - The function of the toggle.
-]]
-```
-
-### Changing the value of an existing Toggle
-```lua
-CoolToggle:Set(true)
-```
-
-
-
-## Creating a Color Picker
-```lua
-Tab:AddColorpicker({
-	Name = "Colorpicker",
-	Default = Color3.fromRGB(255, 0, 0),
-	Callback = function(Value)
-		print(Value)
-	end	  
-})
-
---[[
-Name = <string> - The name of the colorpicker.
-Default = <color3> - The default value of the colorpicker.
-Callback = <function> - The function of the colorpicker.
-]]
-```
-
-### Setting the color picker's value
-```lua
-ColorPicker:Set(Color3.fromRGB(255,255,255))
-```
-
-
-## Creating a Slider
-```lua
-Tab:AddSlider({
-	Name = "Slider",
-	Min = 0,
-	Max = 20,
-	Default = 5,
-	Color = Color3.fromRGB(255,255,255),
-	Increment = 1,
-	ValueName = "bananas",
-	Callback = function(Value)
-		print(Value)
-	end    
-})
-
---[[
-Name = <string> - The name of the slider.
-Min = <number> - The minimal value of the slider.
-Max = <number> - The maxium value of the slider.
-Increment = <number> - How much the slider will change value when dragging.
-Default = <number> - The default value of the slider.
-ValueName = <string> - The text after the value number.
-Callback = <function> - The function of the slider.
-]]
-```
-
-### Change Slider Value
-```lua
-Slider:Set(2)
-```
-Make sure you make your slider a variable (local CoolSlider = Tab:AddSlider...) for this to work.
-
-
-## Creating a Label
-```lua
-Tab:AddLabel("Label")
-```
-
-### Changing the value of an existing label
-```lua
-CoolLabel:Set("Label New!")
-```
-
-
-## Creating a Paragraph
-```lua
-Tab:AddParagraph("Paragraph","Paragraph Content")
-```
-
-### Changing an existing paragraph
-```lua
-CoolParagraph:Set("Paragraph New!", "New Paragraph Content!")
-```
-
-
-## Creating an Adaptive Input
-```lua
-Tab:AddTextbox({
-	Name = "Textbox",
-	Default = "default box input",
-	TextDisappear = true,
-	Callback = function(Value)
-		print(Value)
-	end	  
-})
-
---[[
-Name = <string> - The name of the textbox.
-Default = <string> - The default value of the textbox.
-TextDisappear = <bool> - Makes the text disappear in the textbox after losing focus.
-Callback = <function> - The function of the textbox.
-]]
-```
-
-
-## Creating a Keybind
-```lua
-Tab:AddBind({
-	Name = "Bind",
-	Default = Enum.KeyCode.E,
-	Hold = false,
-	Callback = function()
-		print("press")
-	end    
-})
-
---[[
-Name = <string> - The name of the bind.
-Default = <keycode> - The default value of the bind.
-Hold = <bool> - Makes the bind work like: Holding the key > The bind returns true, Not holding the key > Bind returns false.
-Callback = <function> - The function of the bind.
-]]
-```
-
-### Chaning the value of a bind
-```lua
-Bind:Set(Enum.KeyCode.E)
-```
-
-
-## Creating a Dropdown menu
-```lua
-Tab:AddDropdown({
-	Name = "Dropdown",
-	Default = "1",
-	Options = {"1", "2"},
-	Callback = function(Value)
-		print(Value)
-	end    
-})
-
---[[
-Name = <string> - The name of the dropdown.
-Default = <string> - The default value of the dropdown.
-Options = <table> - The options in the dropdown.
-Callback = <function> - The function of the dropdown.
-]]
-```
-
-### Adding a set of new Dropdown buttons to an existing menu
-```lua
-Dropdown:Refresh(List<table>,true)
-```
-
-The above boolean value "true" is whether or not the current buttons will be deleted.
-### Selecting a dropdown option
-```lua
-Dropdown:Set("dropdown option")
-```
-
-# Finishing your script (REQUIRED)
-The below function needs to be added at the end of your code.
-```lua
-OrionLib:Init()
-```
-
-### How flags work.
-The flags feature in the ui may be confusing for some people. It serves the purpose of being the ID of an element in the config file, and makes accessing the value of an element anywhere in the code possible.
-Below in an example of using flags.
-```lua
-Tab1:AddToggle({
-    Name = "Toggle",
-    Default = true,
-    Save = true,
-    Flag = "toggle"
-})
-
-print(OrionLib.Flags["toggle"].Value) -- prints the value of the toggle.
-```
-Flags only work with the toggle, slider, dropdown, bind, and colorpicker.
-
-### Making your interface work with configs.
-In order to make your interface use the configs function you first need to add the `SaveConfig` and `ConfigFolder` arguments to your window function. The explanation of these arguments in above.
-Then you need to add the `Flag` and `Save` values to every toggle, slider, dropdown, bind, and colorpicker you want to include in the config file.
-The `Flag = <string>` argument is the ID of an element in the config file.
-The `Save = <bool>` argument includes the element in the config file.
-Config files are made for every game the library is launched in.
-
-## Destroying the Interface
-```lua
-OrionLib:Destroy()
-```
+UIList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateCanvas)
+updateCanvas()
