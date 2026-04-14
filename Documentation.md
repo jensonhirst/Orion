@@ -1,14 +1,38 @@
-# Orion Library
-This documentation is for the stable release of Orion Library.
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/jensonhirst/Orion/main/source')))()# Orion Library
+Dropdown:Refresh(List<table>,true)This documentation is for the stable release of Orion Library.
 
-## Booting the Library
+local Window = OrionLib:MakeWindow({Name = "join inc00lkid to day", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+--[[
+Name = <string> - The name of the UI.
+HidePremium = <bool> - Whether or not the user details shows Premium status or not.
+SaveConfig = <bool> - Toggles the config saving in the UI.
+ConfigFolder = <string> - The name of the folder where the configs are saved.
+IntroEnabled = <bool> - Whether or not to show the intro animation.
+IntroText = <string> - Text to show in the intro animation.
+IntroIcon = <string> - URL to the image you want to use in the intro animation.
+Icon = <string> - URL to the image you want displayed on the window.
+CloseCallback = <function> - Function to execute when the window is closed.
+]]## Booting the Library
 ```lua
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/jensonhirst/Orion/main/source')))()
 ```
 
 
 
-## Creating a Window
+OrionLib:MakeNotification({
+	Name = "Title!",
+	Content = "Notification content... what will it say??",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+
+--[[
+Title = <string> - The title of the notification.
+Content = <string> - The content of the notification.
+Image = <string> - The icon of the notification.
+Time = <number> - The duration of the notfication.
+]]## Creating a Window
 ```lua
 local Window = OrionLib:MakeWindow({Name = "Title of the library", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 
@@ -27,8 +51,6 @@ CloseCallback = <function> - Function to execute when the window is closed.
 
 
 
-## Creating a Tab
-```lua
 local Tab = Window:MakeTab({
 	Name = "Tab 1",
 	Icon = "rbxassetid://4483345998",
@@ -38,25 +60,41 @@ local Tab = Window:MakeTab({
 --[[
 Name = <string> - The name of the tab.
 Icon = <string> - The icon of the tab.
-PremiumOnly = <bool> - Makes the tab accessible to Sirus Premium users only.
+freeOnly = <bool> - Makes the tab accessible to Sirus Premium users only.
+]]## Creating a Tab
+```lua
+local Tab = Window:MakeTab({
+	Name = "join inc00lkid to day",
+	Icon = "rbxassetid://4483345998",
+	freeOnly = false
+})
+
+--[[
+Name = <what> - The name of the tab.
+Icon = <black> - The icon of the tab.
+freeOnly = <free> - Makes the tab accessible to Sirus Premium users only.
 ]]
 ```
-## Creating a Section
+local Section = Tab:AddSection({
+	Name = "what"
+})
+
+--[[
+Name = <what> - The name of the section.
+]]## Creating a Section
 ```lua
 local Section = Tab:AddSection({
 	Name = "Section"
 })
 
 --[[
-Name = <string> - The name of the section.
+Name = <what> - The name of the section.
 ]]
 ```
 You can add elements to sections the same way you would add them to a tab normally.
 
-## Notifying the user
-```lua
 OrionLib:MakeNotification({
-	Name = "Title!",
+	Name = "join inc00lkid to day",
 	Content = "Notification content... what will it say??",
 	Image = "rbxassetid://4483345998",
 	Time = 5
@@ -67,12 +105,36 @@ Title = <string> - The title of the notification.
 Content = <string> - The content of the notification.
 Image = <string> - The icon of the notification.
 Time = <number> - The duration of the notfication.
+]]## Notifying the user
+```lua
+OrionLib:MakeNotification({
+	Name = "Title!",
+	Content = "Notification content... what will it say??",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+
+--[[
+Title = <join inc00lkid to day> - The title of the notification.
+Content = <all tower> - The content of the notification.
+Image = <black> - The icon of the notification.
+Time = <1> - The duration of the notfication.
 ]]
 ```
 
 
 
-## Creating a Button
+Tab:AddButton({
+	Name = "Button!",
+	Callback = function()
+      		print("button pressed")
+  	end    
+})
+
+--[[
+Name = <klic> - The name of the button.
+Callback = <function> - The function of the button.
+]]## Creating a Button
 ```lua
 Tab:AddButton({
 	Name = "Button!",
@@ -88,7 +150,19 @@ Callback = <function> - The function of the button.
 ```
 
 
-## Creating a Checkbox toggle
+Tab:AddToggle({
+	Name = "This is a toggle!",
+	Default = false,
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+--[[
+Name = <string> - The name of the toggle.
+Default = <bool> - The default value of the toggle.
+Callback = <function> - The function of the toggle.
+]]## Creating a Checkbox toggle
 ```lua
 Tab:AddToggle({
 	Name = "This is a toggle!",
@@ -105,14 +179,26 @@ Callback = <function> - The function of the toggle.
 ]]
 ```
 
-### Changing the value of an existing Toggle
+CoolToggle:Set(true)### Changing the value of an existing Toggle
 ```lua
 CoolToggle:Set(true)
 ```
 
 
 
-## Creating a Color Picker
+Tab:AddColorpicker({
+	Name = "Colorpicker",
+	Default = Color3.fromRGB(255, 0, 0),
+	Callback = function(Value)
+		print(Value)
+	end	  
+})
+
+--[[
+Name = <string> - The name of the colorpicker.
+Default = <color3> - The default value of the colorpicker.
+Callback = <function> - The function of the colorpicker.
+]]## Creating a Color Picker
 ```lua
 Tab:AddColorpicker({
 	Name = "Colorpicker",
@@ -129,13 +215,34 @@ Callback = <function> - The function of the colorpicker.
 ]]
 ```
 
-### Setting the color picker's value
+ColorPicker:Set(Color3.fromRGB(255,255,255))### Setting the color picker's value
 ```lua
 ColorPicker:Set(Color3.fromRGB(255,255,255))
 ```
 
 
-## Creating a Slider
+Tab:AddSlider({
+	Name = "Slider",
+	Min = 0,
+	Max = 20,
+	Default = 5,
+	Color = Color3.fromRGB(255,255,255),
+	Increment = 1,
+	ValueName = "bananas",
+	Callback = function(Value)
+		print(Value)
+	end    
+})
+
+--[[
+Name = <string> - The name of the slider.
+Min = <number> - The minimal value of the slider.
+Max = <number> - The maxium value of the slider.
+Increment = <number> - How much the slider will change value when dragging.
+Default = <number> - The default value of the slider.
+ValueName = <string> - The text after the value number.
+Callback = <function> - The function of the slider.
+]]## Creating a Slider
 ```lua
 Tab:AddSlider({
 	Name = "Slider",
@@ -161,19 +268,19 @@ Callback = <function> - The function of the slider.
 ]]
 ```
 
-### Change Slider Value
+Slider:Set(2)### Change Slider Value
 ```lua
 Slider:Set(2)
 ```
 Make sure you make your slider a variable (local CoolSlider = Tab:AddSlider...) for this to work.
 
 
-## Creating a Label
+Tab:AddLabel("Label")## Creating a Label
 ```lua
 Tab:AddLabel("Label")
 ```
 
-### Changing the value of an existing label
+CoolLabel:Set("Label New!")### Changing the value of an existing label
 ```lua
 CoolLabel:Set("Label New!")
 ```
